@@ -1,0 +1,32 @@
+[project]
+name = "spiral-builder"
+version = "0.1.0"
+description = "The compounding and embodiment layer of the Spiral ecosystem"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Sir Benjamin", email = "your-email@example.com"},  # Update as needed
+]
+requires-python = ">=3.10"
+dependencies = [
+    # Add core dependencies here later if needed
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "ruff",
+    "pytest",
+]
+
+[project.scripts]
+spiral-embody = "embody.embody:main"
+
+[project.urls]
+Homepage = "https://github.com/Sir-Benjamin-source/Spiral-Builder"
+Repository = "https://github.com/Sir-Benjamin-source/Spiral-Builder"
+Documentation = "https://github.com/Sir-Benjamin-source/Spiral-Builder#readme"
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
