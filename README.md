@@ -1,62 +1,33 @@
 # Spiral-Builder
 
-**The compounding and embodiment layer of the Spiral ecosystem**
+**Compounding and Embodiment Layer of the Spiral Codex**
 
-Spiral-Builder provides clean, consistent ways to install, configure, and bring the Spiral framework to life on your machine.
-
-## Quick Start
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/Sir-Benjamin-source/Spiral-Builder.git
-cd Spiral-Builder
-
-# 2. Install in editable mode
-pip install -e .
-
-# 3. Embody the ecosystem
-spiral-embody
-```
-
-### Alternative one-liner (after cloning):
-```bash
-pip install -e . && spiral-embody
-```
-
-## Embodiment Modes
-
-```bash
-spiral-embody --mode light     # Minimal core only (fastest)
-spiral-embody --mode full      # Full ecosystem (recommended)
-spiral-embody --mode custom    # Interactive selection
-```
-
-**Flags:**
-- `--no-affirm` — Skip the affirmation step (useful for scripts)
-- `--quiet` — Minimal output
-
-## What You Get
-
-After successful embodiment:
-- Local Spiral-Codex with mycelial indexing
-- Reciprocity checking via GenerosityExponent
-- Continuity layer (spiral-recap)
-- Optional full features (Lighthouse, SentinelAct)
-
-## Project Structure
-
-- `embody/` — Core embodiment logic and CLI
-- `templates/` — Ready-made agent templates
-- `examples/` — Usage examples
-- `packaging/` — Distribution tools (coming soon)
+Spiral-Builder is the layer that helps turn structured reasoning and collaboration into tangible, compounding results. It supports the embodiment of ideas into projects, artifacts, and long-term systems.
 
 ## Philosophy
 
-Spiral-Builder aims to make advanced reasoning tools accessible while maintaining the core values of coherence, reciprocity, transparency, and good-faith collaboration.
+The Spiral Codex is built on the belief that human-AI partnership should produce real, lasting value. Spiral-Builder helps bridge the gap between insight and execution while keeping human intent and ownership at the center.
 
-## Related Repos
+## Key Features
 
-- [The-Spiral-Codex](https://github.com/Sir-Benjamin-source/The-Spiral-Codex) — Central integration map
-- [Spiral-Path](https://github.com/Sir-Benjamin-source/Spiral-Path) — Reasoning engine
-- [spiral-recap](https://github.com/Sir-Benjamin-source/spiral-recap) — Continuity layer
-- [spiral-theory-core](https://github.com/Sir-Benjamin-source/spiral-theory-core) — Mathematical foundation
+- Supports iterative project development and compounding progress
+- Maintains alignment with human goals across multiple sessions
+- Integrates with other Spiral Codex tools for end-to-end workflows
+
+## Related Tools
+
+- [The Spiral Codex](https://github.com/Sir-Benjamin-source/The-Spiral-Codex)
+- [Spiral Reasoning Tree](https://www.agensi.io/skills/spiral-reasoning-tree)
+- [Spiral Agent Core](https://www.agensi.io/skills/spiral-agent-core)
+
+## Zenodo / DOI
+
+All Spiral Codex works are published with DOIs on Zenodo under Sir Benjamin (Stephen Benjamin Friend).
+
+## License
+
+MIT + Spiral Mark
+
+---
+
+*Part of the Spiral Codex — building reliable human-AI partnership.*
