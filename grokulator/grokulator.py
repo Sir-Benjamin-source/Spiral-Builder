@@ -15,12 +15,15 @@ try:
     from .core.discordance_handler import DiscordanceHandler
     from .data.symbolic_table import SymbolicTable
     from .utils.provenance import ProvenanceTracker
+    from .utils.formula_execution import execute_formula, validate_expression
 except ImportError:
     SymbolResolver = None
     FormulaRegistry = None
     DiscordanceHandler = None
     SymbolicTable = None
     ProvenanceTracker = None
+    execute_formula = None
+    validate_expression = None
 
 
 class Grokulator:
@@ -70,13 +73,21 @@ class Grokulator:
         self,
         symbol: str,
         formula_id: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[Dict[str, Any]] = None,
+        execute: bool = True,
+        debug: bool = False
     ) -> Dict[str, Any]:
         """
-        Resolve and prepare a formula for application.
+        Resolve and optionally execute a formula for a symbol.
 
-        For v0.1 this returns the formula expression + metadata + context.
-        Actual execution can be added later via hooks or by the calling system.
+        Args:
+            symbol: The symbol to resolve a formula for
+            formula_id: Specific formula ID (if None, uses first applicable)
+            context: Variables available during execution
+            execute: Whether to actually evaluate the expression (default True)
+            debug: Return additional debug information
+
+        Returns structured result with success, result/error, and metadata.
         """
         formula = self.resolve_formula(symbol, formula_id)
 
@@ -87,21 +98,33 @@ class Grokulator:
                 "symbol": symbol
             }
 
+        expression = formula.get("expression", "")
+        context = context or {}
+
         result = {
-            "success": True,
+            "success": False,
             "symbol": symbol,
             "formula": formula,
-            "expression": formula.get("expression"),
-            "context": context or {},
-            "applied_at": __import__("datetime").datetime.utcnow().isoformat()
+            "expression": expression,
+            "context": context
         }
+
+        if execute and execute_formula:
+            exec_result = execute_formula(expression, context=context, debug=debug)
+            result.update(exec_result)
+        else:
+            # Dry run / validation only
+            is_safe, error_msg = validate_expression(expression) if validate_expression else (True, None)
+            result["success"] = is_safe
+            result["error"] = error_msg
+            result["result"] = None
 
         if self.provenance:
             self.provenance.log(
                 "apply_formula",
                 symbol=symbol,
                 formula=formula.get("id"),
-                details={"context": context}
+                details={"executed": execute, "debug": debug}
             )
 
         return result
