@@ -39,7 +39,6 @@ class FormulaRegistry:
         }
         self.formulas[formula_id] = formula
 
-        # Link to symbols
         if linked_symbols:
             for symbol in linked_symbols:
                 if symbol not in self.symbol_links:
@@ -56,6 +55,24 @@ class FormulaRegistry:
         """Return all formulas linked to a specific symbol."""
         formula_ids = self.symbol_links.get(symbol, [])
         return [self.formulas[fid] for fid in formula_ids if fid in self.formulas]
+
+    def get_applicable_formulas(self, symbol: str, formula_type: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Get formulas applicable to a symbol, optionally filtered by type."""
+        formulas = self.get_formulas_for_symbol(symbol)
+        if formula_type:
+            formulas = [f for f in formulas if f.get("type") == formula_type]
+        return formulas
+
+    def resolve_formula(self, symbol: str, formula_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        Resolve a formula for a symbol.
+        If formula_id is provided, return that specific one.
+        Otherwise return the first applicable formula.
+        """
+        if formula_id:
+            return self.get_formula(formula_id)
+        applicable = self.get_applicable_formulas(symbol)
+        return applicable[0] if applicable else None
 
     def list_all_formulas(self) -> List[Dict[str, Any]]:
         return list(self.formulas.values())
