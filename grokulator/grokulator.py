@@ -16,7 +16,6 @@ try:
     from .data.symbolic_table import SymbolicTable
     from .utils.provenance import ProvenanceTracker
 except ImportError:
-    # Allow running as standalone for testing
     SymbolResolver = None
     FormulaRegistry = None
     DiscordanceHandler = None
@@ -28,14 +27,8 @@ class Grokulator:
     """
     Main entry point for the Grokulator utility.
 
-    Wires together:
-    - SymbolicTable (multi-format data)
-    - SymbolResolver (with formula awareness)
-    - FormulaRegistry
-    - DiscordanceHandler
-    - ProvenanceTracker
-
-    Provides a clean, defensive interface for other systems to use.
+    Wires together the core components and provides a clean, defensive interface
+    for other systems to consume as a symbolic reasoning substrate.
     """
 
     def __init__(self, table_source: Optional[str] = None):
@@ -48,7 +41,6 @@ class Grokulator:
         if table_source and self.table:
             self.table.load(table_source)
 
-        # Wire components together
         if self.resolver:
             if self.table:
                 self.resolver.set_table(self.table)
@@ -56,7 +48,7 @@ class Grokulator:
                 self.resolver.set_formula_registry(self.formulas)
 
     def resolve(self, symbol: str) -> Optional[Dict[str, Any]]:
-        """Resolve a symbol with full data."""
+        """Resolve a symbol with full data and linked formulas."""
         if self.resolver:
             result = self.resolver.resolve_with_formulas(symbol)
             if self.provenance:
@@ -65,7 +57,7 @@ class Grokulator:
         return None
 
     def resolve_formula(self, symbol: str, formula_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
-        """Resolve and return a usable formula for a symbol."""
+        """Resolve a specific or first applicable formula for a symbol."""
         if self.resolver and self.formulas:
             resolved = self.resolver.resolve_with_formulas(symbol)
             formulas = resolved.get("formulas", [])
@@ -74,6 +66,46 @@ class Grokulator:
             return formulas[0] if formulas else None
         return None
 
+    def apply_formula(
+        self,
+        symbol: str,
+        formula_id: Optional[str] = None,
+        context: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
+        """
+        Resolve and prepare a formula for application.
+
+        For v0.1 this returns the formula expression + metadata + context.
+        Actual execution can be added later via hooks or by the calling system.
+        """
+        formula = self.resolve_formula(symbol, formula_id)
+
+        if not formula:
+            return {
+                "success": False,
+                "error": "No applicable formula found",
+                "symbol": symbol
+            }
+
+        result = {
+            "success": True,
+            "symbol": symbol,
+            "formula": formula,
+            "expression": formula.get("expression"),
+            "context": context or {},
+            "applied_at": __import__("datetime").datetime.utcnow().isoformat()
+        }
+
+        if self.provenance:
+            self.provenance.log(
+                "apply_formula",
+                symbol=symbol,
+                formula=formula.get("id"),
+                details={"context": context}
+            )
+
+        return result
+
     def register_discordance(
         self,
         original_claim: str,
@@ -81,7 +113,7 @@ class Grokulator:
         strength: float = 0.5,
         context: Optional[Dict[str, Any]] = None
     ) -> Any:
-        """Register a discordance event and log it."""
+        """Register a discordance event."""
         if self.discordance:
             event = self.discordance.register_discordance(
                 original_claim=original_claim,
@@ -105,7 +137,7 @@ class Grokulator:
         return []
 
     def validate(self, symbol: str, value: Any) -> Dict[str, Any]:
-        """Validate a value against a symbol's constraints."""
+        """Validate a value against symbol constraints."""
         if self.resolver:
             return self.resolver.validate_against_constraints(symbol, value)
         return {"valid": False, "error": "No resolver available"}
