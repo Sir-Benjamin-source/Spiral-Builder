@@ -5,6 +5,8 @@ Lightweight orchestrator / facade for the Grokulator symbolic reasoning substrat
 
 Designed as a high-quality utility layer (not the main reasoning engine).
 Provides clean access to symbols, formulas, discordance tracking, and provenance.
+
+This class is the primary entry point for most users of the Grokulator.
 """
 
 from typing import Dict, Any, Optional, List
@@ -30,8 +32,14 @@ class Grokulator:
     """
     Main entry point for the Grokulator utility.
 
-    Wires together the core components and provides a clean, defensive interface
-    for other systems to consume as a symbolic reasoning substrate.
+    Wires together:
+    - SymbolicTable (multi-format data)
+    - SymbolResolver (with formula awareness)
+    - FormulaRegistry
+    - DiscordanceHandler
+    - ProvenanceTracker
+
+    Provides a clean, defensive interface for other systems.
     """
 
     def __init__(self, table_source: Optional[str] = None):
@@ -81,13 +89,11 @@ class Grokulator:
         Resolve and optionally execute a formula for a symbol.
 
         Args:
-            symbol: The symbol to resolve a formula for
-            formula_id: Specific formula ID (if None, uses first applicable)
-            context: Variables available during execution
-            execute: Whether to actually evaluate the expression (default True)
-            debug: Return additional debug information
-
-        Returns structured result with success, result/error, and metadata.
+            symbol: Target symbol
+            formula_id: Specific formula (defaults to first applicable)
+            context: Variables for execution
+            execute: Whether to evaluate the expression
+            debug: Return debug information
         """
         formula = self.resolve_formula(symbol, formula_id)
 
@@ -113,7 +119,6 @@ class Grokulator:
             exec_result = execute_formula(expression, context=context, debug=debug)
             result.update(exec_result)
         else:
-            # Dry run / validation only
             is_safe, error_msg = validate_expression(expression) if validate_expression else (True, None)
             result["success"] = is_safe
             result["error"] = error_msg
@@ -136,7 +141,7 @@ class Grokulator:
         strength: float = 0.5,
         context: Optional[Dict[str, Any]] = None
     ) -> Any:
-        """Register a discordance event."""
+        """Register a discordance event and log provenance."""
         if self.discordance:
             event = self.discordance.register_discordance(
                 original_claim=original_claim,
@@ -160,7 +165,7 @@ class Grokulator:
         return []
 
     def validate(self, symbol: str, value: Any) -> Dict[str, Any]:
-        """Validate a value against symbol constraints."""
+        """Validate a value against a symbol's constraints."""
         if self.resolver:
             return self.resolver.validate_against_constraints(symbol, value)
         return {"valid": False, "error": "No resolver available"}
