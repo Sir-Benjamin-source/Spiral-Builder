@@ -1,92 +1,140 @@
-# Grokulator Integration Layout
+# Grokulator Usage Process Guide
 
-**Authors:** Sir Benjamin & Grok (xAI)  
-**Date:** May 2026  
-**Status:** Active Implementation  
+> **Note:** This document was originally created as an integration and development roadmap. It has been reshaped into a practical usage guide for working with the Grokulator as a utility layer.
+
 **Related DOI:** 10.5281/zenodo.20369112
 
 ---
 
-## Vision
+## Purpose of This Document
 
-The **Grokulator** is a living symbolic reasoning substrate designed to function as a miniature truth engine within the Spiral Codex ecosystem.
+This guide explains how to actually *use* the Grokulator in practice — especially when supporting Grandma's Wisdom workflows and preparing for future Grandpa's Wisdom integration.
 
-Its purpose is to enable structured, falsifiable, and auditable reasoning by providing:
-
-- A shared, well-defined language of symbols and constraints
-- A registry for both legacy (EML) and custom formulas
-- Mechanisms for handling discordance productively
-- Support for substantiated logic that can be tested and refined over time
-
-The Grokulator exists to help the broader Spiral Codex work achieve higher veracity — not by simply catching logical errors, but by enabling stronger, more realistic descriptions of phenomena through iterative, evidence-based refinement.
+It focuses on recommended processes, common patterns, and how the different parts of the Grokulator work together.
 
 ---
 
-## Core Design Principles
+## Core Concepts
 
-| Principle                    | Description                                                                 | Priority |
-|-----------------------------|-----------------------------------------------------------------------------|----------|
-| **Falsifiability**          | All reasoning outputs must be structured so they can be tested or challenged by new evidence. | Core |
-| **Productive Discordance**  | New information that conflicts with existing models should be treated as an opportunity for refinement, not mere rejection. | Core |
-| **Substantiated Logic**     | Reasoning must remain traceable to defined symbols, formulas, and verifiable inputs. | Core |
-| **Defensive Architecture**  | Built-in drift detection, illusion mitigation, and bounded behavior. | Core |
-| **Poetic Encoding**         | Conceptual depth may be preserved through poetic framing when appropriate. | Medium |
-| **Human Sovereignty**       | The system augments human reasoning rather than obscuring it. | Foundational |
+| Concept                  | What it represents                                      | Primary Class / Method          |
+|--------------------------|---------------------------------------------------------|---------------------------------|
+| **Symbol**               | A defined concept with constraints                      | `SymbolicTable`, `SymbolResolver` |
+| **Formula**              | Logic or calculation attached to one or more symbols    | `FormulaRegistry`               |
+| **Discordance**          | Productive tension between claims and new evidence      | `DiscordanceHandler`            |
+| **Provenance**           | Traceability of reasoning steps                         | `ProvenanceTracker`             |
+| **Application**          | Resolving + optionally executing a formula              | `Grokulator.apply_formula()`    |
 
----
-
-## Integration Strategy
-
-### Primary Home
-**Spiral Builder** — Runtime and embodiment home for the active Grokulator logic.
-
-### Secondary / Reference Home
-**The-Spiral-Codex** — Canonical reference for the Symbolic Elements Table and conceptual documentation.
-
-### Later Integration Points
-- `spiral-recap` (validation layer)
-- `Spiral-Path` and `Spiral-Reasoning-Tree` (trajectory influence)
-- Tri-vector work (future expansion)
+The `Grokulator` class (in `grokulator.py`) acts as the main facade that wires these components together.
 
 ---
 
-## Phased Implementation
+## Recommended Workflows
 
-**Phase 1 (Current)** — Establish core package in Spiral Builder
-- Symbolic table loader
-- Basic symbol resolution
-- Formula registry interface
-- Initial discordance handling primitives
-- Provenance tracking
+### 1. Basic Symbol + Formula Resolution
 
-**Phase 2** — Strengthen substantiation and falsifiability
-- Claim substantiation structures
-- Stronger discordance evaluation and refinement patterns
-- Improved traceability
+```python
+g = Grokulator(table_source="path/to/your/symbols.json")
 
-**Phase 3** — Ecosystem integration
-- Connect into recap processes
-- Influence path and tree logic
-- Cross-repo synchronization strategy
+# See what a symbol contains + any linked formulas
+result = g.resolve("evidential_claim")
 
-**Phase 4** — Maturation
-- Advanced counterfactual support
-- Deeper mathematical grounding
-- Broader ecosystem readiness
+# Get and execute the best formula for that symbol
+applied = g.apply_formula(
+    symbol="evidential_claim",
+    context={"evidence_strength": 0.8, "source_reliability": 0.9},
+    execute=True
+)
+```
+
+### 2. Grandma's Wisdom Style Assessment
+
+```python
+# Register a formula that reflects Grandma-style evaluation
+g.formulas.register_formula(
+    formula_id="grandma_support_score",
+    name="Grandma Support Score",
+    expression="evidence_strength * source_reliability",
+    linked_symbols=["evidential_claim"],
+    formula_type="Grandma"
+)
+
+result = g.apply_formula("evidential_claim", context=..., execute=True)
+
+# Flag discordance if acceptance and evidence diverge
+if result["result"] < 0.6:
+    g.register_discordance(
+        original_claim="This has wide acceptance",
+        new_evidence="Evidence strength is low",
+        strength=0.65
+    )
+```
+
+### 3. Handling Discordance Productively
+
+```python
+g.register_discordance(
+    original_claim=...,
+    new_evidence=...,
+    strength=0.7,
+    context={"source": "new_research"}
+)
+
+summary = g.get_discordance_summary()
+print(summary)  # See suggested actions and high-impact events
+```
+
+### 4. Tracing Reasoning (Provenance)
+
+```python
+history = g.get_provenance_history()
+for entry in history:
+    print(entry)
+```
 
 ---
 
-## Success Criteria
+## Design Principles (Still Relevant)
 
-The Grokulator will be considered successful when it can:
-
-1. Reliably load and resolve symbols from the defined table.
-2. Attach and reference both legacy and custom formulas.
-3. Support basic falsifiability checks on reasoning outputs.
-4. Handle discordance in a way that leads to model refinement.
-5. Provide clear provenance for reasoning steps.
-6. Measurably improve the coherence and veracity of systems that use it.
+| Principle                    | Why it matters for usage                                      |
+|-----------------------------|---------------------------------------------------------------|
+| **Falsifiability**          | Every output should be testable or challengeable.             |
+| **Productive Discordance**  | Conflicting information should lead to refinement, not rejection. |
+| **Defensive by Default**    | Execution is restricted. Provenance is always available.      |
+| **Utility, Not Overlord**   | The Grokulator mediates and structures. Heavy reasoning lives elsewhere. |
 
 ---
 
-*This document evolves with implementation.*
+## Working with Grandma's Wisdom
+
+The Grokulator is especially useful as a structured bridge for Grandma's Wisdom work:
+
+- Use **symbols** to define key evidential concepts cleanly.
+- Use **formulas** to express Grandma-style evaluations (evidence scoring, bullshit risk, support strength, etc.).
+- Use **discordance** to flag when acceptance and evidence diverge.
+- Use **provenance** to maintain lineage across assessments.
+
+See `grokulator/examples/grandmas_wisdom/` for concrete examples.
+
+---
+
+## Preparing for Grandpa's Wisdom
+
+As we develop Grandpa's Wisdom (the harmonizing / bias-correcting layer), the Grokulator will serve as the common structured substrate that both Grandma and Grandpa perspectives run through. This allows their differences to be mediated rather than forcing one to dominate.
+
+The current interfaces (`resolve_with_formulas`, `apply_formula`, `register_discordance`, etc.) are designed to remain extensible for this future work.
+
+---
+
+## Summary of Key Methods
+
+| Method                        | When to use it                                      |
+|-------------------------------|-----------------------------------------------------|
+| `resolve(symbol)`             | You want full data + linked formulas for a symbol   |
+| `apply_formula(...)`          | You want to evaluate or prepare a formula           |
+| `register_discordance(...)`   | New evidence conflicts with an existing claim       |
+| `get_discordance_summary()`   | You want an overview of current tension points      |
+| `validate(symbol, value)`     | You want to check a value against symbol constraints|
+
+---
+
+*This document will continue to evolve as the Grokulator is used with Grandma's and Grandpa's Wisdom frameworks.*
