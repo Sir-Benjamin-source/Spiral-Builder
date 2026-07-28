@@ -1,0 +1,1 @@
+CORE: Test of comprehensive ASCII compiler staging for datasheets with accompanying package and BunnyAgent sub-agent pipeline.

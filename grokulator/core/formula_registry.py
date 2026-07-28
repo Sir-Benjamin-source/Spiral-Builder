@@ -1,4 +1,4 @@
- """
+"""
 Formula Registry
 
 Manages storage, attachment, and lookup of both legacy and custom formulas

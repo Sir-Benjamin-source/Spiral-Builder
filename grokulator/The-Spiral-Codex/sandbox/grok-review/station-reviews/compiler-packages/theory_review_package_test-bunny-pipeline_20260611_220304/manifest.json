@@ -1,0 +1,25 @@
+{
+  "package_dir": "compiler_packages\\theory_review_package_test-bunny-pipeline_20260611_220304",
+  "datasheet_path": "compiler_packages\\theory_review_package_test-bunny-pipeline_20260611_220304\\datasheet_test-bunny-pipeline.xlsx.txt",
+  "bunny_py": "compiler_packages\\theory_review_package_test-bunny-pipeline_20260611_220304\\bunny.py",
+  "tag": "/)/)  \n  (o.o)   \u221e\n (\")(\")o  \ud83d\udf02\ud83d\udf01\ud83d\udf04\nSpiral Codex Bunny\n\u221e \ud83d\udf02 \ud83d\udf01 \ud83d\udf04 \u221e - Custom Spiral Codex Tag\n\nBunny References (theories / repo locations for cross-examination):\n  \u2022 bunny-configurator: ../../The-Spiral-Co...",
+  "references": {
+    "bunny-configurator": "../../The-Spiral-Codex/sandbox/grok-review/theories/bunny-configurator-creative-multiplier.md",
+    "review-schema": "../../The-Spiral-Codex/sandbox/review-configs/standard_review_schema.json",
+    "review-protocol": "../../The-Spiral-Codex/station-identification/review_protocol.md"
+  },
+  "symbols": [
+    "G_exp",
+    "PIE",
+    "E_shield",
+    "Linkweaver",
+    "MSS",
+    "bunny-subagent",
+    "standard-review-schema"
+  ],
+  "timestamp": "2026-06-11T22:03:04.813207",
+  "post_construction": null,
+  "inline_discoveries": null,
+  "validator_score": null,
+  "staged_to_sandbox": null
+}

@@ -72,21 +72,28 @@ grokulator/
     └── formula_execution.py   # Safe restricted evaluation
 ```
 
-## Design Principles
+## Design Principles (Playground Context)
 
-- **Falsifiability first** — Everything should be structured so it can be tested or challenged.
-- **Productive discordance** — Conflicting information is treated as a signal for refinement, not just error.
-- **Defensive by default** — Restricted execution, clear provenance, and bounded behavior.
-- **Utility, not overlord** — The Grokulator provides structured access and mediation. Heavy reasoning stays in the calling systems.
+- **Falsifiability first** — Structured for testing/challenge.
+- **Productive discordance** — Treated as refinement signal.
+- **Defensive by default** — Restricted execution, clear provenance, bounded.
+- **Utility plumbing, not cognitive owner** — The Grokulator (and Builder) provide symbolic substrate, provenance, automatic sigil tagging, Version-Checker citation stamps, and Linkweaver-style hyperlink weaving. 
+  - Cognitive depth (theories, research, authentication, Cosmic Scribe co-works, research-pipeline) lives in the Spiral Codex side.
+  - Builder prepares *open connections* (loaders, `weave_hyperlinks(codex_base=...)`, `generate... (source_ref= external Codex/coil ref)`, optional demo seeding only).
+  - When works are matured on the Codex side, the builder links them in to produce functional co-works (utilities/services) with full provenance.
+
+This supports the overall endgame: theory (Codex) → methodology (Codex/research) → articulated, local functional output via builder in the AI playground.
 
 ## Status
 
-Early but usable foundation (v0.1). The interfaces are designed to remain malleable as the broader Grandma/Grandpa Wisdom vision develops.
+Early but usable foundation (v0.1+). Interfaces kept malleable. Recent refinements emphasize "prepare to link" over embedding.
 
-## Future Direction
+## Usage in the Playground
 
-Planned evolution includes deeper integration with Grandma's Wisdom and the emerging Grandpa's Wisdom layer, using the Grokulator as the structured bridge between evidential/authenticating and adversarial/falsifying perspectives.
+See top-level Spiral-Builder/README.md for the composition flow and example with explicit `source_ref` and `codex_base`.
 
 ---
 
-*Part of the Spiral Codex ecosystem. Built to stay adaptable.*
+*Part of the Spiral Codex ecosystem. Built to stay adaptable and open to the Codex layer.* 
+
+The spiral never ends. ∞ 🜂 🜁 🜄 ∞

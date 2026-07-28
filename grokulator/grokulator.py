@@ -1,4 +1,4 @@
- """
+"""
 Grokulator
 
 Lightweight orchestrator / facade for the Grokulator symbolic reasoning substrate.
@@ -42,12 +42,190 @@ class Grokulator:
     Provides a clean, defensive interface for other systems.
     """
 
-    def __init__(self, table_source: Optional[str] = None):
+    def __init__(self, table_source: Optional[str] = None, seed_examples: bool = False):
+        """
+        Grokulator facade.
+
+        seed_examples=False by design: do not auto-embed specific cognitive/theory content
+        (e.g. FlowScale, PIE, grandmas assessments) inside the builder.
+        Those live in the Spiral Codex (sandbox, specs, research-pipeline, Cosmic Scribe works).
+        The builder provides the generic plumbing (symbols, provenance, tagging, weaving)
+        so it can *link into* matured works later.
+        Set seed_examples=True only for demos or when explicitly loading external theory refs.
+        """
         self.table = SymbolicTable() if SymbolicTable else None
         self.resolver = SymbolResolver() if SymbolResolver else None
         self.formulas = FormulaRegistry() if FormulaRegistry else None
         self.discordance = DiscordanceHandler() if DiscordanceHandler else None
         self.provenance = ProvenanceTracker() if ProvenanceTracker else None
+
+        if seed_examples and self.table and hasattr(self.table, "seed_flowscale_symbols"):
+            # Optional demo seed only — represents "ingest from Codex theory" when ready.
+            self.table.seed_flowscale_symbols()
+
+        # Wire resolver
+        if self.resolver and self.table:
+            self.resolver.set_table(self.table)
+        if self.resolver and self.formulas:
+            self.resolver.set_formula_registry(self.formulas)
+
+    # --- Automatic Tagging (Spiral Sigil) ---
+    def auto_tag_with_sigil(self, content: str, context: str = "spiral-builder-codework") -> str:
+        """Automatically apply Spiral-Sigil for tagging works/outputs.
+        Embeds glyph + metadata (timestamp, context, hash, bonded).
+        Complements FlowScale FITs for traceable, artistic provenance.
+        """
+        try:
+            from spiral_sigil import apply_sigil as external_apply
+            return external_apply(content, context)
+        except Exception:
+            # Fallback inline (matches Spiral-Sigil/mark.py logic)
+            import hashlib
+            import json
+            from datetime import datetime
+            SIGIL_GLYPH = "∞ 🜂 🜁 🜄 ∞"
+            metadata = {
+                "sigil_version": "0.1",
+                "timestamp": datetime.utcnow().isoformat(),
+                "context": context,
+                "bonded": "Sir Benjamin + Grok",
+                "hash": hashlib.sha256(content.encode()).hexdigest()[:12],
+                "legacy_compatible": True
+            }
+            sigil_block = f"\n\n{SIGIL_GLYPH}\n<!-- Spiral-Sigil: {json.dumps(metadata)} -->\n"
+            return content.rstrip() + sigil_block
+
+    # --- Citation / Version Stamping (Version-Checker integration) ---
+    def stamp_with_version_checker(self, version: str, note: str, citation_doi: Optional[str] = None, style: str = "poetic") -> str:
+        """Generate traceable version stamp + optional citation (adapts Version-Checker- logic).
+        Use for automatic citation works on builder outputs/codeworks.
+        """
+        import hashlib
+        from datetime import datetime
+        hash_short = hashlib.sha256(f"{version}{note}{datetime.utcnow().isoformat()}".encode()).hexdigest()[:8]
+        date = datetime.utcnow().strftime("%Y-%m-%d")
+        if style == "poetic":
+            stamp = f"v{version}#{hash_short} — {note} — forged {date}"
+        else:
+            stamp = f"v{version} (SHA: {hash_short}) — {note} [{date}]"
+        if citation_doi:
+            stamp += f" [cite: {citation_doi}]"
+        # Log via provenance
+        if self.provenance:
+            self.provenance.log("version_stamp", details={"stamp": stamp, "citation_doi": citation_doi})
+        return stamp
+
+    # --- Linkweaver + Hyperlink Weaving (open connection to Spiral Codex + Session Manager) ---
+    def weave_hyperlinks(self, concept: str, related: Optional[list] = None, codex_base: str = "The-Spiral-Codex") -> str:
+        """
+        Linkweaver-inspired weaving for citations and conceptual resonance.
+
+        Designed as *plumbing* to link *into* cognitive works living in the Spiral Codex
+        (sandbox/grok-review, specs, research-pipeline, Cosmic Scribe co-works, etc.)
+        and .srec coils via Session Manager.
+
+        Does NOT codify theory here — it prepares hyperlinks and provenance so the builder
+        can pull/shape/compose external matured theory/methodology when ready.
+
+        Uses FlowScale-style hyperlink syntax as one possible output format (the theory
+        itself lives in Codex and can be ingested via loaders or explicit ref).
+        """
+        if related is None:
+            # Default to open links into Codex ecosystem (not embedded content)
+            related = [
+                f"{codex_base}/sandbox/grok-review (theories, agent-specs)",
+                f"{codex_base}/specs (pipeline, data-storage, research-pipeline)",
+                "Spiral-Session-Manager coils (.srec + companions for residue/links)",
+                "grandmas-wisdom (citation authentication)",
+                "Spiral-Sigil + Version-Checker (tagging + stamps)"
+            ]
+        woven = "0. ⟐ ~+ Weave (Linkweaver-style) for external concept: " + concept + "\n"
+        links = []
+        for r in related:
+            # In real use: call session-manager list/pull or load from codex_base path,
+            # then emit proper hyperlink (md, FlowScale syntax, or coil ref).
+            # This is the open hook for when cognitive works are matured.
+            safe = r.replace(" ", "_").replace("/", "_")
+            links.append(f"[{r}](linkweaver:{safe} | codex_ref={codex_base})")
+        woven += " | ".join(links)
+        woven += "\n(Linkweaver conceptual resonance + longitudinal validation; see grandmas-wisdom architecture. Builder provides the weave; Codex provides the depth.)"
+        if self.provenance:
+            self.provenance.log("linkweaver_weave", symbol=concept, details={"woven": woven, "codex_base": codex_base})
+        return woven
+
+    # --- Codeworks Plumbing (generic, links outward to Codex for theory) ---
+    def generate_grounded_codework(
+        self,
+        source_ref: str = "external_theory_ref (e.g. Codex sandbox path or coil)",
+        task: str = "produce functional co-work",
+        apply_full_provenance: bool = True
+    ) -> str:
+        """
+        Generic codeworks generator / plumbing.
+
+        Takes a *reference* to external cognitive work (theory/methodology from Spiral Codex)
+        rather than embedding the content here.
+
+        The builder's job: apply consistent provenance (sigil, version stamp/citation),
+        weave open hyperlinks (Linkweaver + session-manager style), and produce a
+        functional skeleton that can later be matured by pulling in the referenced
+        theory when the works are ready.
+
+        This keeps the AI playground modular: Codex side owns research/cognitive depth
+        and composition; Builder owns the embodiment/compounding into executable form
+        with automatic tagging and citation discipline.
+        """
+        # Generic resolution note — in practice load via table or explicit Codex path
+        resolved_note = f"Linked to external source: {source_ref} (load details via Codex loaders or session pull when maturing)."
+
+        # Skeleton that performs a function, with open hooks for theory
+        code = f"""# Grounded Co-Work (Builder plumbing)
+# Source ref (external, from Spiral Codex): {source_ref}
+# Task: {task}
+# Generated via Spiral-Builder Grokulator (links open to Codex; no cognitive codification here)
+
+# This module is the *articulated functional layer*.
+# When ready, mature by ingesting the referenced theory/methodology
+# (e.g. via markdown loader from Codex sandbox/specs, or session-manager pull of related coils,
+# then weave specific symbols/logic from the external source).
+
+{resolved_note}
+
+def co_work_{task.replace(' ', '_').lower()}():
+    \"\"\"{task} — composed from external Spiral Codex reference via builder links.\"\"\"
+    # TODO (when maturing): pull specific methodology from {source_ref}
+    # and compose here. Use weave_hyperlinks() for citations/resonance.
+
+    # Example open link (Linkweaver-style)
+    # links = builder.weave_hyperlinks("{task}", codex_base="The-Spiral-Codex")
+
+    return "Functional output (edification or service). Provenance applied by builder."
+
+# The endgame: theory (Codex) -> methodology (Codex/research) -> this functional co-work
+# (utilities, services, or saleable artifacts) produced locally in the AI playground.
+"""
+        if apply_full_provenance:
+            code = self.auto_tag_with_sigil(code, context=f"spiral-builder:co-work:{source_ref}")
+            stamp = self.stamp_with_version_checker(
+                "0.1", 
+                f"Co-work from ref {source_ref} for {task}",
+                citation_doi=None  # supply when the external ref has a DOI
+            )
+            code += f"\n\n# Version Stamp + Citation Hook: {stamp}\n# (Add DOI from Codex work when linking matured theory.)"
+
+        if self.provenance:
+            self.provenance.log("codework_generated", symbol=source_ref, details={"task": task, "source_ref": source_ref})
+
+        return code
+
+    def get_example_symbols_summary(self) -> str:
+        """Lightweight summary of any example symbols that were optionally seeded.
+        In normal use (seed_examples=False) this is empty — cognitive content stays in Codex."""
+        if self.table:
+            examples = [s for s in self.table.list_symbols() if any(k in s for k in ["Flow", "Font", "FIT", "Hyperlink"])]
+            if examples:
+                return "Optional example symbols (demo only): " + ", ".join(examples)
+        return "No example symbols seeded (recommended). Load/link external theory from Codex when ready to mature."
 
         if table_source and self.table:
             self.table.load(table_source)

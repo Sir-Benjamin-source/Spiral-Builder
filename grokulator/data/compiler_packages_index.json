@@ -1,0 +1,48 @@
+{
+  "packages": [
+    {
+      "package_dir": "compiler_packages\\theory_review_package_test-bunny-pipeline_20260611_220304",
+      "name": "compiler_packages\\theory_review_package_test-bunny-pipeline_20260611_220304",
+      "timestamp": "2026-06-11T22:03:04.813207",
+      "references": {
+        "bunny-configurator": "../../The-Spiral-Codex/sandbox/grok-review/theories/bunny-configurator-creative-multiplier.md",
+        "review-schema": "../../The-Spiral-Codex/sandbox/review-configs/standard_review_schema.json",
+        "review-protocol": "../../The-Spiral-Codex/station-identification/review_protocol.md"
+      },
+      "symbols": [
+        "G_exp",
+        "PIE",
+        "E_shield",
+        "Linkweaver",
+        "MSS",
+        "bunny-subagent",
+        "standard-review-schema"
+      ],
+      "validator_score": null,
+      "bunny": "BunnyAgent examination pipeline",
+      "staged": "The-Spiral-Codex\\sandbox\\grok-review\\station-reviews\\compiler-packages\\theory_review_package_test-bunny-pipeline_20260611_220304"
+    },
+    {
+      "package_dir": "compiler_packages\\theory_review_package_verify-bunny_20260611_220316",
+      "name": "compiler_packages\\theory_review_package_verify-bunny_20260611_220316",
+      "timestamp": "2026-06-11T22:03:16.177578",
+      "references": {
+        "review-schema": "../../The-Spiral-Codex/sandbox/review-configs/standard_review_schema.json",
+        "bunny-configurator": "../../The-Spiral-Codex/sandbox/grok-review/theories/bunny-configurator-creative-multiplier.md"
+      },
+      "symbols": [
+        "G_exp",
+        "PIE",
+        "E_shield",
+        "Linkweaver",
+        "MSS",
+        "bunny-subagent",
+        "standard-review-schema"
+      ],
+      "validator_score": null,
+      "bunny": "BunnyAgent examination pipeline",
+      "staged": "The-Spiral-Codex\\sandbox\\grok-review\\station-reviews\\compiler-packages\\theory_review_package_verify-bunny_20260611_220316"
+    }
+  ],
+  "last_updated": "2026-06-11T22:03:16.192812"
+}

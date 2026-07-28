@@ -21,6 +21,14 @@ dev = [
 
 [project.scripts]
 spiral-embody = "embody.embody:main"
+spiral-install = "grokulator.install_pipeline:main"
+spiral-stamp = "grokulator.provenance:stamp_cli"
+spiral-sigil = "grokulator.provenance:sigil_cli"
+
+[project.optional-dependencies]
+sigil = ["spiral-sigil"]
+versionchecker = ["version-checker"]
+full = ["spiral-sigil", "version-checker", "openpyxl"]
 
 [project.urls]
 Homepage = "https://github.com/Sir-Benjamin-source/Spiral-Builder"
@@ -30,3 +38,9 @@ Documentation = "https://github.com/Sir-Benjamin-source/Spiral-Builder#readme"
 [build-system]
 requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+grokulator = ["data/*.json", "docs/**/*", "corpus/**/*"]
+
+[tool.setuptools.packages.find]
+where = ["."]

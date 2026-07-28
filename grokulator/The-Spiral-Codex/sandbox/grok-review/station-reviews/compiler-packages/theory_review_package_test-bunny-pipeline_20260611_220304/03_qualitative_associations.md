@@ -1,0 +1,1 @@
+HELIX HAND: Bunny now functions as pre-codified companion. References enable contextual cross-exam. Packages build robust records for builder creativity.

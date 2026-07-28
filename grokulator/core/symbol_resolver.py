@@ -1,4 +1,4 @@
- """
+"""
 Symbol Resolver
 
 Resolves symbols from the Grokulator Symbolic Elements Table with

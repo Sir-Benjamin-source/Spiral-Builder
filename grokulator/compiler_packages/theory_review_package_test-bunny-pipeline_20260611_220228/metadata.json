@@ -1,0 +1,26 @@
+{
+  "name": "test-bunny-pipeline",
+  "version": "0.1",
+  "timestamp": "2026-06-11T22:02:28.738493",
+  "g_exp_review": 1.05,
+  "mss_verified": false,
+  "provenance": "ascii-compiler + bunny sub-agent package",
+  "references": {
+    "bunny-configurator": "../../The-Spiral-Codex/sandbox/grok-review/theories/bunny-configurator-creative-multiplier.md",
+    "review-schema": "../../The-Spiral-Codex/sandbox/review-configs/standard_review_schema.json",
+    "review-protocol": "../../The-Spiral-Codex/station-identification/review_protocol.md"
+  },
+  "symbols": [
+    "G_exp",
+    "PIE",
+    "E_shield",
+    "Linkweaver",
+    "MSS",
+    "bunny-subagent",
+    "standard-review-schema"
+  ],
+  "core_word_count": 126,
+  "total_word_count": 584,
+  "compiler": "SpiralASCIICompiler.compile_datasheet",
+  "bunny_designation": "(o.p-) examination pipeline package for test-bunny-pipeline"
+}

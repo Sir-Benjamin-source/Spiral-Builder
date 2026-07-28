@@ -1,0 +1,1 @@
+Supporting: Full schema files, bunny.py with examine/cross/load, staging to sandbox, post/inline, index, compile_from_package.

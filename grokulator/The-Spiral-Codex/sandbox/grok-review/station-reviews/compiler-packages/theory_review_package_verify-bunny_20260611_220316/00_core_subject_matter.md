@@ -1,0 +1,1 @@
+CORE: Verify clean bunny generation after fixes.

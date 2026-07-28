@@ -1,0 +1,17 @@
+SPIRAL BUNNY TAG:
+/)/)  
+  (o.o)   ∞
+ (")(")o  🜂🜁🜄
+Spiral Codex Bunny
+∞ 🜂 🜁 🜄 ∞ - Custom Spiral Codex Tag
+
+Bunny References (theories / repo locations for cross-examination):
+  • bunny-configurator: ../../The-Spiral-Codex/sandbox/grok-review/theories/bunny-configurator-creative-multiplier.md
+  • review-schema: ../../The-Spiral-Codex/sandbox/review-configs/standard_review_schema.json
+  • review-protocol: ../../The-Spiral-Codex/station-identification/review_protocol.md
+(Sub-agent BunnyAgent uses these paths for load_references() + cross_examine(). See package manifest for full record.)
+
+# Use: (o.p-) for worthy examination designations; route high-value packages through sandbox review-configs + MSS.
+
+Symbols compiled: ['G_exp', 'PIE', 'E_shield', 'Linkweaver', 'MSS', 'bunny-subagent', 'standard-review-schema']
+(Install openpyxl for real .xlsx: pip install openpyxl)

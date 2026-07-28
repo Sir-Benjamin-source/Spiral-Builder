@@ -1,0 +1,1 @@
+EQUIVOCATION: Ensure one-at-a-time, validator gate, human checkpoint. No auto heavy promotion.

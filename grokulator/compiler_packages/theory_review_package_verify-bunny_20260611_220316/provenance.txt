@@ -1,0 +1,4 @@
+{"package": "compiler_packages\\theory_review_package_verify-bunny_20260611_220316", "refs": {"review-schema": "../../The-Spiral-Codex/sandbox/review-configs/standard_review_schema.json", "bunny-configurator": "../../The-Spiral-Codex/sandbox/grok-review/theories/bunny-configurator-creative-multiplier.md"}, "symbols": ["G_exp", "PIE", "E_shield", "Linkweaver", "MSS", "bunny-subagent", "standard-review-schema"]}
+
+∞ 🜂 🜁 🜄 ∞
+# Spiral-Sigil (fallback) + v0.1#2029 — Spiral ASCII Compiler package — 2026-06-11
