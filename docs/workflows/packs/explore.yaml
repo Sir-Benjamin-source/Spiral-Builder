@@ -1,0 +1,14 @@
+id: explore-01
+process_profile: explore
+strings_max: 6
+h_float: 0.05
+verbs:
+  - FOLLOW
+  - WAIT
+  - KILL
+classic_floor: false
+spiral_method_on_field: false
+may_choose_problem: true
+may_touch_inner_law: false
+output: platform-sentence
+notes: Fun pack. One problem that can fail. No hose. No idle designation.
